@@ -1,0 +1,8 @@
+{
+    "lsd-alpine": {
+        "image": "alpine",
+        "features": {
+            "lsd": {}
+        }
+    }
+}

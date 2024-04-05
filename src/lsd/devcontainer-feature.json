@@ -1,0 +1,7 @@
+{
+    "name": "Lsd",
+    "id": "lsd",
+    "version": "1.0.0",
+    "description": "Change default ls to use lsd",
+    "installsAfter": ["ghcr.io/devcontainers/features/common-utils"]
+}
