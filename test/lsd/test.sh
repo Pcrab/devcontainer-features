@@ -5,6 +5,8 @@ set -e
 # shellcheck source=/dev/null
 source dev-container-features-test-lib
 
-check "execute command" bash -c "lsd --version | grep 'lsd 1.1.2'"
+echo "lsd version"
+LSD_VERSION=$(lsd --version)
+check "check ls version" bash -c "ls --version | grep ${LSD_VERSION}"
 
 reportResults

@@ -46,13 +46,17 @@ try_install() {
     cp lsd.fish /usr/share/fish/vendor_completions.d/lsd.fish
 }
 
-if type apt-get >/dev/null 2>&1; then
+if type apt >/dev/null 2>&1; then
     # Ubuntu & Debian
     if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
-        echo "Running apt-get update..."
-        apt-get update -y
+        echo "Running apt update..."
+        apt update -y
+        apt upgrade -y
     fi
-    apt-get -y install --no-install-recommends lsd
+    if ! type curl >/dev/null 2>&1; then
+        apt install -y curl ca-certificates
+    fi
+    try_install
 elif type dnf >/dev/null 2>&1; then
     # RedHat & Fedora
     dnf upgrade -y
@@ -68,10 +72,10 @@ elif type zypper >/dev/null 2>&1; then
 elif type apk >/dev/null 2>&1; then
     # alpine
     apk update
-    if type curl >/dev/null 2>&1; then
+    if ! type curl >/dev/null 2>&1; then
         apk add --no-cache curl ca-certificates
     fi
-    if type man >/dev/null 2>&1; then
+    if ! type man >/dev/null 2>&1; then
         apk add --no-cache mandoc man-pages
     fi
     try_install
@@ -80,4 +84,5 @@ else
     exit 1
 fi
 
+mkdir -p /usr/local/bin/
 ln -s "$(which lsd)" /usr/local/bin/ls
