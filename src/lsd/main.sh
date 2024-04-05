@@ -47,16 +47,37 @@ try_install() {
 }
 
 if type apt-get >/dev/null 2>&1; then
-    apt-get install -y lsd
+    # Ubuntu & Debian
+    if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
+        echo "Running apt-get update..."
+        apt-get update -y
+    fi
+    apt-get -y install --no-install-recommends lsd
 elif type dnf >/dev/null 2>&1; then
+    # RedHat & Fedora
+    dnf upgrade -y
     dnf install -y lsd
 elif type pacman >/dev/null 2>&1; then
+    # Archlinux
+    pacman -Syyuu --noconfirm
     pacman -S --noconfirm lsd
 elif type zypper >/dev/null 2>&1; then
+    # OpenSUSE
+    zypper up -y
     zypper install -y lsd
-else
-    echo "Unknown package manager, falling back to manual installation"
+elif type apk >/dev/null 2>&1; then
+    # alpine
+    apk update
+    if type curl >/dev/null 2>&1; then
+        apk add --no-cache curl ca-certificates
+    fi
+    if type man >/dev/null 2>&1; then
+        apk add --no-cache mandoc man-pages
+    fi
     try_install
+else
+    echo "Unsupported package manager."
+    exit 1
 fi
 
 ln -s "$(which lsd)" /usr/local/bin/ls
