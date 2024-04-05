@@ -13,13 +13,13 @@ try_install() {
     if [ -n "$(ldd /bin/ls | grep 'musl' | head -1 | cut -d ' ' -f1)" ]; then
         C_LIB="musl"
     else
-        C_LIB="glibc"
+        C_LIB="gnu"
     fi
     echo "Detected libc: ${C_LIB}"
 
     echo "Downloading lsd..."
     # This script only supports x86_64 now
-    curl -sL https://github.com/lsd-rs/lsd/releases/download/v1.1.2/lsd-v1.1.2-x86_64-unknown-linux-"${C_LIB}".tar.gz | tar xvz - -C /tmp
+    curl -sL https://github.com/lsd-rs/lsd/releases/download/v1.1.2/lsd-v1.1.2-x86_64-unknown-linux-"${C_LIB}".tar.gz | tar xvz -C /tmp
     cd /tmp/lsd-v1.1.2-x86_64-unknown-linux-"${C_LIB}"
 
     echo "Installing lsd..."
