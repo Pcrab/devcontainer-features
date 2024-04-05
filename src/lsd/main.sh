@@ -46,6 +46,18 @@ try_install() {
     cp lsd.fish /usr/share/fish/vendor_completions.d/lsd.fish
 }
 
+which() {
+    IFS=:
+    for x in $PATH; do
+        if [ -x "$x/$1" ]; then
+            echo "$x/$1"
+            return 0
+        fi
+    done
+    echo "$1 not found in \$PATH"
+    return 1
+}
+
 if type apt >/dev/null 2>&1; then
     # Ubuntu & Debian
     if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
