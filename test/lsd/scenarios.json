@@ -4,5 +4,17 @@
         "features": {
             "lsd": {}
         }
+    },
+    "lsd-archlinux": {
+        "image": "archlinux",
+        "features": {
+            "lsd": {}
+        }
+    },
+    "lsd-opensuse": {
+        "image": "opensuse/leap:15.5",
+        "features": {
+            "lsd": {}
+        }
     }
 }

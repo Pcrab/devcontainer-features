@@ -63,6 +63,7 @@ elif type dnf >/dev/null 2>&1; then
     dnf install -y lsd
 elif type pacman >/dev/null 2>&1; then
     # Archlinux
+    pacman-key --init
     pacman -Syyuu --noconfirm
     pacman -S --noconfirm lsd
 elif type zypper >/dev/null 2>&1; then
